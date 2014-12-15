@@ -1,0 +1,16 @@
+#Knheader {
+	height: 200px;
+	background-image: url("../resources/images/Knheader.jpg");
+	
+	position: relative;
+
+}
+#Knheaderbq {
+	color: white;
+	position: absolute;
+	margin-bottom: 0px;
+	bottom: 0px;
+	right: 30%;
+	margin-left: 0px;
+	border-left: 0px;
+}
