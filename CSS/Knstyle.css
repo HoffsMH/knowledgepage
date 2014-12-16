@@ -1,16 +1,28 @@
 #Knheader {
 	height: 200px;
 	background-image: url("../resources/images/Knheader.jpg");
-	
-	position: relative;
-
+	width:100%;
+	position: relative;	
 }
+
 #Knheaderbq {
 	color: white;
 	position: absolute;
 	margin-bottom: 0px;
 	bottom: 0px;
-	right: 30%;
-	margin-left: 0px;
+	
+	margin-left: 4%;
+	margin-right: 0px;
 	border-left: 0px;
+}
+
+#headercontainer {
+	width: 100%;
+	padding-left: 0px;
+	padding-right: 0px;
+
+}
+
+#Knpgcontent {
+	display: none;
 }
