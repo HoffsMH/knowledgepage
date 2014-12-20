@@ -6,9 +6,10 @@ $( document ).ready(function() {
       Knclearfront();
     });
 
-    var blacksmithing = new Kncategory("blacksmithing")
-    console.log(blacksmithing)
     
+
+    var $myclass = new Kncategory("Blacksmithing");
+    console.log($myclass.name);
 
 });
 
@@ -18,9 +19,45 @@ $( document ).ready(function() {
 // ====================================================
 function Kncategory(name) {
   this.name = name;
+  catname = "kncategory"+ name;
+  
+  panelid = name +"panel";
+  panelheadingid = name +"panelheading";
+  panelbodyid = name +"panelbody"
+
+
+    //have to figure out how to do this dryer
+    // maybe just insert the first part of the category then continue 
+    //to add pieces until its complete
+    //also need to check if the category exist
+    $('#knpgheader').after(function () {
+       
+      //add the base element panel 
+      var $insert = new $("<div class='col-md-4 "+ catname +" id="+ name +"'></div>");
+      
+      //fill out the category
+      $($insert).append("<div class='panel panel-default "+ catname +" id="+ panelid+"'></div>");
+      // $().append("<div class='panel-heading "+ catname +" id=" +panelheadingid+"'>"+name+"</div>");
+      // $('#'+ panelheadingid).after("<div class='panel-body "+ catname +"id="+panelbodyid+">tempytemp</div>");
 
 
 
+       //add edit and delete buttons
+       
+       //label it with its name and date
+
+       // initialize it with an unordered list
+
+
+
+       //return it to the after function
+       return $insert
+
+    });
+  
+
+
+  
 
 };
 
