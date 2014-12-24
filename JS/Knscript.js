@@ -158,8 +158,23 @@ $( document ).ready(function() {
     $kncategoryul = $("<ul>")
       .addClass(catname)
       .append($("<li>")
-        .append("<input>")
-          .attr("type","text"));
+        .addClass(catname)
+        .append($("<input>")
+          .attr("type","text")
+          .attr("id", "knnewest")
+          .addClass("knnewest", catname)  )
+        .append($("<div>" )
+          .attr("id","knaddli")
+          .addClass("btn btn-default kncatlibtn")
+          .append("+"))
+        .append($("<div>")
+          .attr("id", "knrmli")
+          .addClass("btn btn-default kncatlibtn")
+          .append("-"))
+        .append($("<div>")
+          .attr("id", "knnestli")
+          .addClass("btn btn-default kncatlibtn")
+          .append("new")));
 
 
     //have to figure out how to do this dryer
