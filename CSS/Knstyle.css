@@ -29,4 +29,8 @@
 #knpgheader {
 	border-bottom: 1px solid #ddd;
 	margin-bottom: 10px;
+	padding-bottom: 20px;
+}
+#knerrorline {
+	height : 20px;
 }
