@@ -11,6 +11,8 @@ All of this so that I could come back to them later and check them off as I lear
 
 in short the bookmarks section of my browser was growing increasingly inadequate
 
+if along the way to making this I learn a thing or two about javascript, jquery, or programming that wouldn't be horrible either
+
 what my plan is (or was)
 ========================
 once I have this in a workable state I plan to host the page with my specific progress and update it every now and then

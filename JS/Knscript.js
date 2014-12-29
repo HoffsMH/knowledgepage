@@ -234,67 +234,7 @@ $( document ).ready(function() {
     console.log( "ready!" );
 });
 
-// ====================================================
-// This is the category class  each category takes up
-// a bootstrap pannel
-// ====================================================
 
-function Kncategory(name) {
-  this.name = name;
-  catname = "kncategory"+ name;
-  
-  var panelid = name +"panel";
-  var panelheadingid = name +"panelheading";
-  var panelbodyid = name +"panelbody"
-
-  var defaultsize = "col-md-4"
-
-
-
-
-
-    //have to figure out how to do this dryer
-    // maybe just insert the first part of the category then continue 
-    //to add pieces until its complete
-    //also need to check if the category exist
-    $('#kncatbegin').prepend(function () {
-       
-      //add the base element panel 
-      var $insert = new $("<div></div>")
-        .addClass(defaultsize, catname)
-        .attr("id", name)
-        .append($('<div>')
-          .addClass("panel panel-default", catname)    
-        .append($('<div>')
-          .addClass("panel-heading", catname)
-          .append(name))
-        .append($('<div>')
-          .addClass("panel-body", catname)
-          .append("some default text")
-          ))
-      
-      //fill out the category
-      //how often am I going to be editing jquery objects before they are added to the DOM?
-      
-
-       //add edit and delete buttons
-       
-       //label it with its name and date
-
-       // initialize it with an unordered list
-
-
-
-       //return it to the after function
-       return $insert
-
-    });
-  
-
-
-  
-
-};
 
 
 
