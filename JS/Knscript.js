@@ -96,6 +96,7 @@ $( document ).ready(function() {
 
   $("#knnewcategorysubmit").click(function () {knnewcategorysubmit();})
 
+  $("body").on("click", ".knaddli", function () {Knadditem($(this))})
 
   function knnewcategorysubmit () {
 
@@ -122,20 +123,34 @@ $( document ).ready(function() {
     } else {
       $kncategories[textsubmitted] = new Kncategory(textsubmitted);
 
-      for (var i in $kncategories) {
-        console.log("we've enteredthe loop")
-      }
+      
       
 
     }
   };
+  
+  
+  
+  function  Knadditem ($this) {
+    console.log($this.parents(".kncatshell").attr("id"));
+    var key = $this.parents(".kncatshell").attr("id");
 
-  $("body").on("click", ".knaddli", function () {hider($(this))});
+    var listring = $this.prevAll(".knnewest").val();
+    console.log(listring);
+    
 
-  function  hider ($pee) {
-  console.log($pee.parents(".kncatshell").attr("id"));
-  var po = $pee.parents(".kncatshell").attr("id")
-  $kncategories[po].Knulfunc("+","listitem");
+
+
+
+
+
+
+
+    //this is actually where we call the categories privileged method :
+    //  Knulfunc. We can't call this method effectively without alot of information
+    // So although ideally I'd like to have just the call to this function inside
+    //the binding of the event handler its cleaner to just make a wrapper function for it
+    $kncategories[key].Knulfunc("+", listring);
 
   }
 
@@ -171,19 +186,23 @@ $( document ).ready(function() {
           .addClass(catname + " kninputli")
           .append($("<input>")
             .attr("type","text")
-            .attr("id", "knnewest")
-            .addClass("knnewest", catname)  )
+            .attr("placeholder","title")
+            .addClass("knnewest", catname))
+          .append($("<input>")
+            .attr("type", "text")
+            .attr("placeholder","link")
+            .addClass("knnewestlink", catname))
           .append($("<div>" )
             .addClass("btn btn-default kncatlibtn knaddli " + catname)
             .append("+"))
-          .append($("<div>")
-            .attr("id", "knrmli")
-            .addClass("btn btn-default kncatlibtn")
-            .append("-"))
+          // .append($("<div>")
+          //   .attr("id", "knrmli")
+          //   .addClass("btn btn-default kncatlibtn")
+          //   .append("-"))
           .append($("<div>")
             .attr("id", "knnestli")
             .addClass("btn btn-default kncatlibtn")
-            .append("new")));
+            .append("+sub")));
 
         return $knulfuncstring;
       }
@@ -221,8 +240,8 @@ $( document ).ready(function() {
 
           }
 
-          console.log("here we are in KnPlus and heres what i got for newlistitem");
-          console.log($newlistitem);
+          
+          
           $("." + catname + " .kninputli").before($newlistitem)
         }
 
