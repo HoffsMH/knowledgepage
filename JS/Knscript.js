@@ -4,6 +4,9 @@ $( document ).ready(function() {
   //do to figure stuff out
   debug = false;
 
+  //global array of categories
+  var $kncategories = []
+
 
 
   //===============================================
@@ -117,10 +120,22 @@ $( document ).ready(function() {
 
 
     } else {
-      $myclass = new Kncategory(textsubmitted)
+      $kncategories[textsubmitted] = new Kncategory(textsubmitted);
+
+      for (var i in $kncategories) {
+        console.log("we've enteredthe loop")
+      }
+      
 
     }
   };
+
+  $(".kncategory").on("click", ".knaddli", function () {disfunc(event)});
+
+  function disfunc(event) {
+    console.log($(this));
+
+  }
 
   //=============================================
   //kn page basic classes
@@ -149,14 +164,13 @@ $( document ).ready(function() {
         $knulfuncstring = $("<ul>")
         .addClass(catname)
         .append($("<li>")
-          .addClass(catname)
+          .addClass(catname + " kninputli")
           .append($("<input>")
             .attr("type","text")
             .attr("id", "knnewest")
             .addClass("knnewest", catname)  )
           .append($("<div>" )
-            .attr("id","knaddli")
-            .addClass("btn btn-default kncatlibtn")
+            .addClass("btn btn-default kncatlibtn knaddli " + catname)
             .append("+"))
           .append($("<div>")
             .attr("id", "knrmli")
@@ -172,8 +186,8 @@ $( document ).ready(function() {
 
       switch (func) {
         case "+":
-
-          break
+          KnPlus();
+          break;
       }
       
       //========================================
@@ -203,8 +217,9 @@ $( document ).ready(function() {
 
           }
 
-          
-          $("ul." + catname).prepend($newlistitem)
+          console.log("here we are in KnPlus and heres what i got for newlistitem");
+          console.log($newlistitem);
+          $("." + catname + " .kninputli").before($newlistitem)
         }
 
       } //--function KnPlus
