@@ -130,12 +130,16 @@ $( document ).ready(function() {
     }
   };
 
-  $(".kncategory").on("click", ".knaddli", function () {disfunc(event)});
+  $("body").on("click", ".knaddli", function () {hider($(this))});
 
-  function disfunc(event) {
-    console.log($(this));
+  function  hider ($pee) {
+  console.log($pee.parents(".kncatshell").attr("id"));
+  var po = $pee.parents(".kncatshell").attr("id")
+  $kncategories[po].Knulfunc("+","listitem");
 
   }
+
+
 
   //=============================================
   //kn page basic classes
@@ -235,7 +239,7 @@ $( document ).ready(function() {
 
       //add the base element panel 
       var $insert = new $("<div></div>")
-      .addClass(defaultsize, catname)
+      .addClass(defaultsize + " " +  catname + " kncatshell")
       .attr("id", name)
       .append($('<div>')
         .addClass("panel panel-default", catname)
