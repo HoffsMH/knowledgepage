@@ -39,3 +39,25 @@
 	padding: 2px;
 	margin-left: 2px;
 }
+
+.knlicontent {
+	position:relative;
+	display: inline-block;
+	top: 20%;
+	transform: translateY(20%);
+}
+
+.knminusbtn {
+	position: relative;
+	left: 20px;
+	/*top: 30%;
+	transform: translateY(30%);*/
+
+}
+
+.knlidate {
+	font-size: .7em;
+	font-weight: 500;
+	color: #999999;
+	line-height: 50%;
+}

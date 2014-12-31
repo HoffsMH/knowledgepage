@@ -9,5 +9,10 @@ change size (columns) of category panels after creation
 	figure out how to let user change sizes of columns in different window sizes?
 
 BIGTHING: add dates support
+	date ranges
+	xx: ago dropdown box
+	mousewheel scrool keybind somehow to  view it day by day week by week
+	
+	
 
 //clear text inputs after creating a new list item

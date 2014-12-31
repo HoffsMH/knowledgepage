@@ -95,8 +95,12 @@ $( document ).ready(function() {
   //=========================================
 
   $("#knnewcategorysubmit").click(function () {knnewcategorysubmit();})
-
+  //event handler for adding a list item
   $("body").on("click", ".knaddli", function () {Knadditem($(this))})
+
+
+  //event handler for removing a list item
+  $("body").on("click", ".knminusbtn", function () {Knremoveitem($(this))})
 
   //pressing enter while title textfield is active will simulate click to + button
   $("body").on("keypress", ".knnewest", function (event) {
@@ -171,9 +175,20 @@ $( document ).ready(function() {
     $this.prevAll(".knnewest").val("");
     $this.nextAll(".knnewestlink").val("");
     //give focus back to the title
-    this.prevAll(".knnewest").focus();
+    $this.prev(".knnewest").focus();
 
 
+  }
+
+  function Knremoveitem ($this) {
+    //console.log($this.parents(".kncatshell").attr("id"));
+    var key = $this.parents(".kncatshell").attr("id");
+
+    var listring = $this.prev().find(".knliitem").text();
+    console.log(listring);
+
+
+    $kncategories[key].Knulfunc("-", listring)
   }
 
 
@@ -212,7 +227,6 @@ $( document ).ready(function() {
             .addClass("knnewest", catname))
           .append($("<div>" )
             .addClass("btn btn-default kncatlibtn knaddli " + catname)
-            .attr("type","submit")
             .append("+"))
           // .append($("<div>")
           //   .attr("id", "knrmli")
@@ -234,13 +248,18 @@ $( document ).ready(function() {
         case "+":
           KnPlus();
           break;
+        case "-" :
+          KnMinus();
+          break;
       }
       
       //========================================
       // child functions for the Knulfunc master functions 
-      // Don't want anything else touching this functions
+      // Don't want anything else touching these functions
       //========================================
       function KnPlus() {
+        //keep forgetting received these as parameters from ancestor function
+        //Knulfunc
         plaintext = (typeof plaintext === "string") ? plaintext : false;
         link = (typeof link === "string") ? link : false;
 
@@ -248,20 +267,51 @@ $( document ).ready(function() {
           knerrorline("Please provide a name.");
         } else {
           
+          var $newlistitem = $("<li>");
+          $newlistitem.addClass("kn"+plaintext+"rm")
+          
+          var $newlistitemdiv = $("<div>")
+          $newlistitemdiv.addClass("knlicontent")
+          
           if (!link) {
-            var $newlistitem = $("<li>")
-            $newlistitem.append(plaintext);
+            
+            $newlistitemdiv.append($("<div>")
+              .addClass("knliitem " + catname + " " + plaintext)
+              .append(plaintext));
           } else {
-            var $newlistitem = $("<li>")
+            
             var $newlistitemlink = $("<a>")
             $newlistitemlink
+              .addClass("knliitem " + catname + " " + plaintext)
               .attr("href" , link)
               .append(plaintext);
-            $newlistitem
+            $newlistitemdiv
               .append($newlistitemlink);
 
 
           }
+          //here we append the date string
+          var plusdate = new Date();
+          $newlistitemdiv
+            .append($("<div>")
+              .addClass("knlidate " + plusdate.toLocaleDateString() )
+              .append(plusdate.toLocaleDateString()))
+
+          //lets try placing our - button after the li element
+          
+          
+
+          $newlistitem
+            .append($newlistitemdiv)
+            .append($("<div>")
+              .addClass("knminusbtn btn btn-default kncatlibtn " + catname)
+              .append("-"))
+              
+
+
+
+
+          
 
           
           
@@ -269,6 +319,16 @@ $( document ).ready(function() {
         }
 
       } //--function KnPlus
+
+      //function for removing an element
+      function KnMinus () {
+        console.log("we are in KnMinus");
+        $(".kn"+plaintext+"rm").remove()
+
+
+      }
+
+
 
     } //--function Knulfunc
 
@@ -324,6 +384,7 @@ $( document ).ready(function() {
 
 
   console.log( "ready!" );
+
 });
 
 
