@@ -98,6 +98,18 @@ $( document ).ready(function() {
 
   $("body").on("click", ".knaddli", function () {Knadditem($(this))})
 
+  //pressing enter while title textfield is active will simulate click to + button
+  $("body").on("keypress", ".knnewest", function (event) {
+
+    if (event.keyCode == 13) { $(this).next(".knaddli").click();}
+  })
+
+  //pressing enter while link textfield is active will simulate click to + button
+  $("body").on("keypress", ".knnewestlink", function (event) {
+
+    if (event.keyCode == 13) { $(this).prevAll(".knaddli").click();}
+  })
+
   function knnewcategorysubmit () {
 
       //get the text from the textbox
@@ -136,7 +148,9 @@ $( document ).ready(function() {
     var key = $this.parents(".kncatshell").attr("id");
 
     var listring = $this.prevAll(".knnewest").val();
+    var lilinkstring = $this.nextAll(".knnewestlink").val();
     console.log(listring);
+    console.log(lilinkstring);
     
 
 
@@ -146,11 +160,19 @@ $( document ).ready(function() {
 
 
 
-    //this is actually where we call the categories privileged method :
-    //  Knulfunc. We can't call this method effectively without alot of information
+    //this is actually where we call the
+    // categories privileged method : Knulfunc
+    //  We can't call this method effectively without alot of information
     // So although ideally I'd like to have just the call to this function inside
     //the binding of the event handler its cleaner to just make a wrapper function for it
-    $kncategories[key].Knulfunc("+", listring);
+    $kncategories[key].Knulfunc("+", listring, lilinkstring);
+
+    //clear textboxes for next input
+    $this.prevAll(".knnewest").val("");
+    $this.nextAll(".knnewestlink").val("");
+    //give focus back to the title
+    this.prevAll(".knnewest").focus();
+
 
   }
 
@@ -188,12 +210,9 @@ $( document ).ready(function() {
             .attr("type","text")
             .attr("placeholder","title")
             .addClass("knnewest", catname))
-          .append($("<input>")
-            .attr("type", "text")
-            .attr("placeholder","link")
-            .addClass("knnewestlink", catname))
           .append($("<div>" )
             .addClass("btn btn-default kncatlibtn knaddli " + catname)
+            .attr("type","submit")
             .append("+"))
           // .append($("<div>")
           //   .attr("id", "knrmli")
@@ -202,7 +221,11 @@ $( document ).ready(function() {
           .append($("<div>")
             .attr("id", "knnestli")
             .addClass("btn btn-default kncatlibtn")
-            .append("+sub")));
+            .append("sublist"))
+          .append($("<input>")
+            .attr("type", "text")
+            .attr("placeholder","link")
+            .addClass("knnewestlink", catname)));
 
         return $knulfuncstring;
       }

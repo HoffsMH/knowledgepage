@@ -1,0 +1,13 @@
+
+
+make colors of categories changeable both before and after creation
+
+change position in line of category panels after creation
+
+change size (columns) of category panels after creation
+
+	figure out how to let user change sizes of columns in different window sizes?
+
+BIGTHING: add dates support
+
+//clear text inputs after creating a new list item
