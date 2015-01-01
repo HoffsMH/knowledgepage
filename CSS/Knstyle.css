@@ -38,13 +38,13 @@
 .kncatlibtn {
 	padding: 2px;
 	margin-left: 2px;
+	font-size: .8em;
 }
 
 .knlicontent {
 	position:relative;
 	display: inline-block;
-	top: 20%;
-	transform: translateY(20%);
+	
 }
 
 .knminusbtn {
@@ -61,3 +61,42 @@
 	color: #999999;
 	line-height: 50%;
 }
+
+.knviewmode {
+	display: inline-block;
+
+}
+.panel {
+	/*overflow: scroll;*/
+}
+.knliitem, .knnewest {
+	font-size: .9em;
+}
+
+.knnewest {
+	width: 90px;
+	display: block;
+}
+
+.knnewestlink {
+	display: block;
+	width: 120px;
+	position: relative;
+	left: 0px;
+	font-size: .7em;
+}
+.panel-heading {
+	font-size: 1.2em;
+}
+.kninputcontent {
+	display: inline-block;
+	
+}
+
+.knaddli , #knnestli {
+	p/*osition: relative;
+	top: 10%;
+	t*/ransform: translateY(-90%);
+
+}
+

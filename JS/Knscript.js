@@ -95,6 +95,7 @@ $( document ).ready(function() {
   //=========================================
 
   $("#knnewcategorysubmit").click(function () {knnewcategorysubmit();})
+
   //event handler for adding a list item
   $("body").on("click", ".knaddli", function () {Knadditem($(this))})
 
@@ -105,14 +106,22 @@ $( document ).ready(function() {
   //pressing enter while title textfield is active will simulate click to + button
   $("body").on("keypress", ".knnewest", function (event) {
 
-    if (event.keyCode == 13) { $(this).next(".knaddli").click();}
+    if (event.keyCode == 13) { $(this).parent().next(".knaddli").click();}
   })
 
   //pressing enter while link textfield is active will simulate click to + button
   $("body").on("keypress", ".knnewestlink", function (event) {
 
-    if (event.keyCode == 13) { $(this).prevAll(".knaddli").click();}
+    if (event.keyCode == 13) { $(this).parent().next(".knaddli").click();}
   })
+
+  //pressing enter while create category textfield is active will simulate click to create button
+  $("body").on("keypress", "#knnewcategory", function (event) {
+
+    if (event.keyCode == 13) { $(this).nextAll("#knnewcategorysubmit").click();}
+  })
+  //
+  $("body").on("click", ".kntonow", function () {Knchangemodetonow($(this))})
 
   function knnewcategorysubmit () {
 
@@ -151,10 +160,10 @@ $( document ).ready(function() {
     console.log($this.parents(".kncatshell").attr("id"));
     var key = $this.parents(".kncatshell").attr("id");
 
-    var listring = $this.prevAll(".knnewest").val();
-    var lilinkstring = $this.nextAll(".knnewestlink").val();
+    var listring = $this.prev().find(".knnewest").val();
+    var lilinkstring = $this.prev().find(".knnewestlink").val();
     console.log(listring);
-    console.log(lilinkstring);
+    // console.log(lilinkstring);
     
 
 
@@ -172,8 +181,8 @@ $( document ).ready(function() {
     $kncategories[key].Knulfunc("+", listring, lilinkstring);
 
     //clear textboxes for next input
-    $this.prevAll(".knnewest").val("");
-    $this.nextAll(".knnewestlink").val("");
+    $this.prev().find(".knnewest").val("");
+    $this.prev().find(".knnewestlink").val("");
     //give focus back to the title
     $this.prev(".knnewest").focus();
 
@@ -189,6 +198,13 @@ $( document ).ready(function() {
 
 
     $kncategories[key].Knulfunc("-", listring)
+  }
+
+  function Knchangemodetonow ($this) {
+
+
+
+    $(".kntonowtogglebtn").text("To Now")
   }
 
 
@@ -216,30 +232,39 @@ $( document ).ready(function() {
 
     this.Knulfunc = function(func, plaintext, link) {
       func = (typeof func === "undefined") ? false : func;
+      
+
+      //if no arguments are supplied
       if (!func) { 
         $knulfuncstring = $("<ul>")
         .addClass(catname)
         .append($("<li>")
           .addClass(catname + " kninputli")
-          .append($("<input>")
-            .attr("type","text")
-            .attr("placeholder","title")
-            .addClass("knnewest", catname))
+          
+          .append($("<div>")
+            .addClass("kninputcontent " + catname)
+          
+            .append($("<input>")
+              
+              .attr("type","text")
+              .attr("placeholder","title")
+              .addClass("knnewest", catname))
+            .append($("<input>")
+              
+              .attr("type", "text")
+              .attr("placeholder","link")
+              .addClass("knnewestlink", catname)))
           .append($("<div>" )
+            
             .addClass("btn btn-default kncatlibtn knaddli " + catname)
             .append("+"))
-          // .append($("<div>")
-          //   .attr("id", "knrmli")
-          //   .addClass("btn btn-default kncatlibtn")
-          //   .append("-"))
+          
           .append($("<div>")
+            
             .attr("id", "knnestli")
             .addClass("btn btn-default kncatlibtn")
             .append("sublist"))
-          .append($("<input>")
-            .attr("type", "text")
-            .attr("placeholder","link")
-            .addClass("knnewestlink", catname)));
+          );
 
         return $knulfuncstring;
       }

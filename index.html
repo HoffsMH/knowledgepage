@@ -53,25 +53,38 @@
 			
 		</div>	
 
-		<div class="row" id="Knpgcontent" >
-			<div class="row" id="knpgheader">
-				<form>
-					<input type="text" id="knnewcategory" placeholder="New Category Here!">
-					<div class="btn btn-default" id="knnewcategorysubmit">Create</div>
-				</form>
+		<div id="Knpgcontent" >
+			<div  id="knpgheader">
+				<div class="row">
+					<div class="col-md-5 col-sm-5 col-xs-6">
+						<input type="text" id="knnewcategory" placeholder="New Category Here!">
+						<div class="btn btn-default" id="knnewcategorysubmit">Create</div>
+					</div>
+					<div class="dropdown knviewmode col-md-3 col-sm-3 col-xs-6">
+					  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+					  	<span class="kntonowtogglebtn">To now</span>
+					    
+					    <span class="caret"></span>
+
+					  </button>
+					  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+					    <li role="presentation" class="kntonow">To Now</li>
+					    <li role="presentation" class="knincby">Increment By...</li>
+					    
+					  </ul>
+					</div>
+				</div>
 				<div  id="knerrorline">
 				
 				</div>
 			</div>
-			
-				
-			</div>
 			<div class="row" id="kncatbegin">
 				
 			</div>
-		</div>	
+		</div> <!-- knpgcontent -->
+	</div>	 <!-- containter div -->
 
-	</div>	
+		
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
