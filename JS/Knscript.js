@@ -120,8 +120,14 @@ $( document ).ready(function() {
 
     if (event.keyCode == 13) { $(this).nextAll("#knnewcategorysubmit").click();}
   })
-  //
+  //user clicks on to now on drop down box to change the view mode
   $("body").on("click", ".kntonow", function () {Knchangemodetonow($(this))})
+
+  //user clicks on increment not on drop down box to change the view mode
+  $("body").on("click", ".knincby", function () {Knchangemodeincby($(this))})
+
+  //user clicks on a week ago in to now mode
+  $("body").on("click", ".knaweek", function () {KntonowChange($(this), "knaweek")})
 
   function knnewcategorysubmit () {
 
@@ -202,9 +208,76 @@ $( document ).ready(function() {
 
   function Knchangemodetonow ($this) {
 
+    //make knpasttime visible
+    $(".knpasttime").show()
+    //hide other dropdown boxes used in other mode
 
 
-    $(".kntonowtogglebtn").text("To Now")
+
+    //get the value of another dropdown specifying past
+
+
+    
+
+
+
+    $(".knviewmodetogglebtn").text("To Now")
+  }
+
+  function Knchangemodeincby ($this) { 
+    //make dropdown box visible
+
+    //hide other dropdown boxes used in other mode
+    $(".knpasttime").hide()
+
+
+    //change text value of dropdown box
+    $(".knviewmodetogglebtn").text("Increment by..")
+
+  }
+
+  function KntonowChange ($this, chstring) {
+
+    switch (chstring) {
+        case "knaweek":
+          
+          break;
+      }
+    
+
+    var knlidateFilt = $(".knlidate").filter(function (index) {return knfilterdate(index, 7)})
+
+    knlidateFilt.hide()
+
+    
+
+    function knfilterdate ($index, days) {
+      
+      //grab the array again
+      var knlidatearray = $(".knlidate")
+      //grab the text from our specific iteration's element
+      var knlidatetext = knlidatearray.eq($index).text();
+      //make it into a date object
+      var knlidate = new Date(knlidatetext);
+      var today = new Date();
+      //get time past
+      var cutoff = new Date(today.setDate(today.getDate() -7 ));
+
+
+
+       if (knlidate < cutoff) {
+        console.log("current elements date is less than (predating) today minus days")
+        return true
+
+       } else {
+        console.log("current elements date is greater than (postdating) today minus 7 days" + days)
+        return false
+       }
+      
+
+    }
+
+
   }
 
 
