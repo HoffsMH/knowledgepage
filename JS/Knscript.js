@@ -1,5 +1,7 @@
 $( document ).ready(function() {
 
+  
+
   //make console a little more verbose about what im trying to 
   //do to figure stuff out
   debug = false;
@@ -9,13 +11,7 @@ $( document ).ready(function() {
 
 
 
-  //===============================================
-  //Front page clear
-  //===============================================
-  $("#Knpagebtn").click(function() {
-
-    Knclearfront();
-  });
+  
   
 
   //=============================================
@@ -61,34 +57,7 @@ $( document ).ready(function() {
   var mytimer = persistenttimer(4000);
 
   
-  // ======================================
-  // all this is clearing the page after the user presses the 
-  // page button to bring up the knowledge map
-  // just rearranging and hiding elements
-  // ======================================
-  var Knclearfront = function () {
-
-
-    $( "#Knheader" ).animate({
-      height: 0
-    }, 200, function() {
-      // Animation complete.
-      $("#Knheader").hide();
-    });
-
-
-
-    $( "#Knaboutrow" ).animate({
-      opacity: 0,
-    }, 200, function() {
-      // Animation complete.
-      $("#Knaboutrow").hide();
-    });
-
-    // all of the knowledge page is contained in this element
-    $("#Knpgcontent").show();
-
-  };
+  
 
   //=========================================
   //general button event handlers
