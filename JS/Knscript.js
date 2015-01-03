@@ -103,6 +103,12 @@ $( document ).ready(function() {
   //event handler for removing a list item
   $("body").on("click", ".knminusbtn", function () {Knremoveitem($(this))})
 
+  
+
+  //=======================================
+  //button simulation
+  //=======================================
+
   //pressing enter while title textfield is active will simulate click to + button
   $("body").on("keypress", ".knnewest", function (event) {
 
@@ -120,14 +126,18 @@ $( document ).ready(function() {
 
     if (event.keyCode == 13) { $(this).nextAll("#knnewcategorysubmit").click();}
   })
-  //user clicks on to now on drop down box to change the view mode
-  $("body").on("click", ".kntonow", function () {Knchangemodetonow($(this))})
+  
 
-  //user clicks on increment not on drop down box to change the view mode
-  $("body").on("click", ".knincby", function () {Knchangemodeincby($(this))})
+  //=======================================
+  //view mode and date filtering
+  //========================================
+  //user clicks on an option in change viewmode dropdown
+  $("body").on("click", ".knviewmodeOpt", function () {Knchangemode($(this))})
 
-  //user clicks on a week ago in to now mode
-  $("body").on("click", ".knaweek", function () {KntonowChange($(this), "knaweek")})
+  
+
+  //user clicks on a tonow viewmode option
+  $("body").on("click", ".kntonowOpt", function () {KntonowChange($(this))})
 
   function knnewcategorysubmit () {
 
@@ -206,62 +216,49 @@ $( document ).ready(function() {
     $kncategories[key].Knulfunc("-", listring)
   }
 
-  function Knchangemodetonow ($this) {
+  function Knchangemode ($this) {
 
-    //make knpasttime visible
-    $(".knpasttime").show()
-    //hide other dropdown boxes used in other mode
+    switch  ($this.children().attr("class")) {
+      case "tonow" :
+        //hide all other  view mode elements
+        $(".knviewmodeNode").hide()
+        //show to to now dropdown box
+        $(".kntonow").show()
+        break;
+      case "incby":
+        $(".knviewmodeNode").hide()
+        $(".knincby").show()
 
+    }
 
-
-    //get the value of another dropdown specifying past
-
-
-    
-
-
-
-    $(".knviewmodetogglebtn").text("To Now")
+    $(".knviewmodetogglebtn").text($this.children().text())
   }
 
-  function Knchangemodeincby ($this) { 
-    //make dropdown box visible
+  
 
-    //hide other dropdown boxes used in other mode
-    $(".knpasttime").hide()
-
-
-    //change text value of dropdown box
-    $(".knviewmodetogglebtn").text("Increment by..")
-
-  }
-
-  function KntonowChange ($this, chstring) {
-
-    switch (chstring) {
-        case "knaweek":
-          
-          break;
-      }
+  function KntonowChange ($this) {
     
+    var days = $this.children().attr("class");
+    
+    console.log("filtering anything that happened " + days + "  days ago");
+    //first we make everything show up so previously filtered elements can come back
+    $(".knlidate").show();
+    var knlidateFilt = $(".knlidate").filter(function (index) {return knfilterdate(index)})
 
-    var knlidateFilt = $(".knlidate").filter(function (index) {return knfilterdate(index, 7)})
-
-    knlidateFilt.hide()
+    knlidateFilt.hide();
 
     
 
-    function knfilterdate ($index, days) {
+    function knfilterdate ($index) {
       
-      //grab the array again
-      var knlidatearray = $(".knlidate")
+      
       //grab the text from our specific iteration's element
-      var knlidatetext = knlidatearray.eq($index).text();
-      //make it into a date object
+      var knlidatetext = $(".knlidate").eq($index).text();
+      //make that text into a date object
       var knlidate = new Date(knlidatetext);
       var today = new Date();
-      //get time past
-      var cutoff = new Date(today.setDate(today.getDate() -7 ));
+      //get the cutoff date before which will render the element hidden
+      var cutoff = new Date(today.setDate(today.getDate() - days ));
 
 
 
@@ -278,6 +275,8 @@ $( document ).ready(function() {
     }
 
 
+
+    $(".kntonowtogglebtn").text($this.children().text())
   }
 
 
