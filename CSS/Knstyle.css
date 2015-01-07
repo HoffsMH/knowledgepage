@@ -1,6 +1,9 @@
 #Knheader {
 	height: 200px;
-	background-image: url("../resources/images/Knheader.jpg");
+
+	background-image: linear-gradient(rgba(255,255,255, 0.8), rgb(0,0,255)) ;
+	background-color: green;
+	/*background-image: url("../resources/images/Knheader.jpg");*/
 	width:100%;
 	position: relative;	
 }
@@ -16,16 +19,14 @@
 	border-left: 0px;
 }
 
-#headercontainer {
+#frontpageheadercontainer {
 	width: 100%;
 	padding-left: 0px;
 	padding-right: 0px;
 
 }
 
-#Knpgcontent {
-	display: none;
-}
+
 #knpgheader {
 	border-bottom: 1px solid #ddd;
 	margin-bottom: 10px;
@@ -94,9 +95,24 @@
 }
 
 .knaddli , #knnestli {
-	p/*osition: relative;
+	position: relative;
 	top: 10%;
-	t*/ransform: translateY(-90%);
+	transform: translateY(-90%);
 
 }
 
+
+/*BOOTSTRAP FIDDLING AREA*/
+.panel-heading {
+	background-color: #E0115F !important;
+}
+
+.floatright {
+	float: right;
+}
+
+.kncolorupdown {
+	display: inline;
+	margin-left: 10px;
+	margin-right: 10px;
+}

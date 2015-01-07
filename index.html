@@ -5,55 +5,53 @@
 	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-theme.css">
 	<link rel="stylesheet" type="text/css" href="CSS/Knstyle.css">
 
-	<title></title>
+	<title>Knowledge Page</title>
 </head>
-<body>	
-<div class="container" id="headercontainer">
-
-	<div id="Knheader" >
-		<blockquote id="Knheaderbq" class="col-md-6">
-			<p>
-				When we know our own strength, we shall the better know what to undertake with hopes of success; and when we have well surveyed the powers of our own minds ... we shall not be inclined either to sit still, and not set our thoughts on work at all.
-			</p>
-			<footer>
-				John Locke <cite title="An Essay Concerning Human Understanding"> <a href="http://oll.libertyfund.org/titles/761" target="_blank">An Essay Concerning Human Understanding</a></cite>
-			</footer>
-		</blockquote>	
-
-
-		
-	</div>
-</div>
-	<div class="container">
-	
-		<div class="row" id="Knaboutrow">
-			<div class="col-md-8" id="Knabout" >
-				<h2>Im on my way to becoming a developer.</h2>
-				<p>It has been perilous and daunting, but my will is unbreakable.</p>
-
-				<p>One of the strengths of my learning style is that I am thorough. If I have a task at hand but I come across a bit of knowledge  sitting there along the side, I am loathe not to pick it up. but this strength can also be a huge weakness</p>	
-
-				<p>The problem comes when I'm working in a very directed way and I come across something that I need to learn to solve the problem at hand, but in the process of learning about that one thing I come across 5 other things that I don't know, and by my very nature are completely unignorable to me. At this point I have to make a decision between the all too tempting notion of going off on the great knowledge adventure of the century and just buckling down and finishing my current project.</p>
-
-				<p>Eventually I figured out that what I need is a way to store gateways to the knowledge (or words that I don't know, concepts I've never heard of, jargon) in a way that gives them context, context both in terms of what knowledge its related to and what type of problems I was solving while I came across said word.</p>
-
-				<p>All of this so that I could come back to them later and check them off as I learned about them.</p>
-
-				<p>in short the bookmarks section of my browser was growing increasingly inadequate</p>
-
-				<h3>what I've done</h3>
-
-				<p>all I've done is take</p>
+<body>
+	<div class="frontpagewrapper" style="display: none;">	
+		<div class="container" id="frontpageheadercontainer">
+			<div id="Knheader" >
+				<blockquote id="Knheaderbq" class="col-md-6">
+					<p>
+						When we know our own strength, we shall the better know what to undertake with hopes of success; and when we have well surveyed the powers of our own minds ... we shall not be inclined either to sit still, and not set our thoughts on work at all.
+					</p>
+					<footer>
+						John Locke <cite title="An Essay Concerning Human Understanding"> <a href="http://oll.libertyfund.org/titles/761" target="_blank">An Essay Concerning Human Understanding</a></cite>
+					</footer>
+				</blockquote>
 			</div>
-			<div class="col-md-4" id="Knshowme">	
-				<h1>Enough with the monologue just show me the damn thing</h1>
+		</div>
+		<div class="container frontpagecontentcontainer">
+			<div class="row" id="Knaboutrow">
+				<div class="col-md-8" id="Knabout" >
+					<h2>Im on my way to becoming a developer.</h2>
+					<p>It has been perilous and daunting, but my will is unbreakable.</p>
 
-				<div id="Knpagebtn" class="btn btn-default">Knowledge Page.</div>
-		    </div>
-			
-		</div>	
+					<p>One of the strengths of my learning style is that I am thorough. If I have a task at hand but I come across a bit of knowledge  sitting there along the side, I am loathe not to pick it up. but this strength can also be a huge weakness</p>	
 
-		<div id="Knpgcontent" >
+					<p>The problem comes when I'm working in a very directed way and I come across something that I need to learn to solve the problem at hand, but in the process of learning about that one thing I come across 5 other things that I don't know, and by my very nature are completely unignorable to me. At this point I have to make a decision between the all too tempting notion of going off on the great knowledge adventure of the century and just buckling down and finishing my current project.</p>
+
+					<p>Eventually I figured out that what I need is a way to store gateways to the knowledge (or words that I don't know, concepts I've never heard of, jargon) in a way that gives them context, context both in terms of what knowledge its related to and what type of problems I was solving while I came across said word.</p>
+
+					<p>All of this so that I could come back to them later and check them off as I learned about them.</p>
+
+					<p>in short the bookmarks section of my browser was growing increasingly inadequate</p>
+
+					<h3>what I've done</h3>
+
+					<p>all I've done is take</p>
+				</div>
+				<div class="col-md-4" id="Knshowme">	
+					<h1>Enough with the monologue just show me the damn thing</h1>
+
+					<div id="Knpagebtn" class="btn btn-default">Knowledge Page.</div>
+			    </div>
+				
+			</div>
+		</div>	 <!-- containter div -->
+	</div> <!-- frontpagewrapper -->	
+
+		<div id="Knpgcontent" class="container">
 			<div  id="knpgheader">
 				<div class="row">
 					<div class="col-md-5 col-sm-5 col-xs-6">
@@ -83,7 +81,7 @@
 					    <span class="caret"></span>
 
 					  </button>
-					  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+					  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
 					    <li role="presentation" class="kntonowOpt"><div class="7">A Week ago</div></li>
 					    <li role="presentation" class="kntonowOpt"><div class="14">2 Weeks ago</div></li>
 					    <li role="presentation" class="kntonowOpt"><div class="30">1 month ago</div></li>
@@ -95,18 +93,33 @@
 					  </ul>
 					</div>
 
+					<div class="dropdown knincby knviewmodeNode col-md-3 col-sm-3 col-xs-6" style="display: none;" >
+					  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
+					  	<span class="kntonowtogglebtn">1 Week</span>
+					    
+					    <span class="caret"></span>
+
+					  </button>
+					  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu3">
+					    <li role="presentation" class="kntonowOpt"><div class="7">1 Week</div></li>
+					    <li role="presentation" class="kntonowOpt"><div class="14">2 Weeks</div></li>
+					    <li role="presentation" class="kntonowOpt"><div class="30">1 month</div></li>
+					    <li role="presentation" class="kntonowOpt"><div class="60">2 months</div></li>
+					  </ul>
+					</div>
+
 
 				</div>
 				<div  id="knerrorline">
 				
 				</div>
-				<div class="datetestingzone knlidate">12/23/2014</div>
+				
 			</div>
 			<div class="row" id="kncatbegin">
 				
 			</div>
 		</div> <!-- knpgcontent -->
-	</div>	 <!-- containter div -->
+	 
 
 		
 
@@ -114,9 +127,16 @@
 	<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
 	
 
-	<!-- My Script -->
+	<!-- My Scripts -->
+
+	<!-- FRONT PAGE -->
+	<!-- COMMENT OUT TO REMOVE COVER PAGE -->
+	<!-- // <script type="text/javascript" src="JS/Knfrontpage.js"></script> -->
+
+	<!-- MAIN SCRIPT -->
 	<script type="text/javascript" src="JS/Knscript.js"></script>
 
+	
 
 </body>
 </html>

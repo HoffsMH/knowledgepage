@@ -1,13 +1,43 @@
 $( document ).ready(function() {
 
   
-
+                
   //make console a little more verbose about what im trying to 
   //do to figure stuff out
-  debug = false;
+  debug = true;
+
+  function debugmsg (bugstring) {
+    if (debug) {
+      console.log(bugstring)
+    }
+  }
 
   //global array of categories
   var $kncategories = []
+
+  //global object
+  // of category headers colors
+  
+  var knpanelhclrs = new clrobjectlist
+
+  function clrobjectlist () {
+    this.clrolength = 0;
+    this.clrindex = [];
+    this.add = function (label, hex) {
+      this.clrolength += 1;
+      this.clrindex.push(label);
+      this[label] = hex;
+    }
+  }
+
+  //============================================
+  //panel heading color array
+  //============================================
+  knpanelhclrs.add("jsblue", "#0C72AD")
+  knpanelhclrs.add("rubyred", "#E0115F")
+  knpanelhclrs.add("lightyellow", "#FFFF66")
+  
+  
 
 
 
@@ -37,7 +67,7 @@ $( document ).ready(function() {
 
     mytimer(texthidestring, 4000);
 
-    console.log(errorstr);
+    debugmsg(errorstr);
   };
 
   //================================================
@@ -45,7 +75,7 @@ $( document ).ready(function() {
   //I looked up how to do closure on the web and im not even sure this is right
   //================================================
   function persistenttimer (num) {
-    var a  = setTimeout("console.log('Shouldn't be seeing this text ever)", num);
+    var a  = setTimeout("debugmsg('Shouldn't be seeing this text ever)", num);
     clearTimeout(a);
     return function (string, num) {
       clearTimeout(a);
@@ -72,6 +102,13 @@ $( document ).ready(function() {
   //event handler for removing a list item
   $("body").on("click", ".knminusbtn", function () {Knremoveitem($(this))})
 
+
+  //event handler for changing color up
+  $("body").on("click", ".knmvclrup", function () {Knmvclr($(this));})
+
+  //event handler for changing color up
+  $("body").on("click", ".knmvclrdown", function () {Knmvclr($(this));})
+
   
 
   //=======================================
@@ -95,6 +132,7 @@ $( document ).ready(function() {
 
     if (event.keyCode == 13) { $(this).nextAll("#knnewcategorysubmit").click();}
   })
+
   
 
   //=======================================
@@ -114,7 +152,7 @@ $( document ).ready(function() {
 
       var textsubmitted = $("#knnewcategory").val()
       $("#knnewcategory").val("")
-      console.log(textsubmitted)
+      debugmsg(textsubmitted)
 
       
 
@@ -126,40 +164,23 @@ $( document ).ready(function() {
       //check to see its not null  
     } else if (textsubmitted == "") {
       knerrorline("No Category name.")
-
-
-
-
     } else {
       $kncategories[textsubmitted] = new Kncategory(textsubmitted);
-
-      
-      
-
     }
   };
   
   
   
   function  Knadditem ($this) {
-    console.log($this.parents(".kncatshell").attr("id"));
+    debugmsg($this.parents(".kncatshell").attr("id"));
     var key = $this.parents(".kncatshell").attr("id");
 
     var listring = $this.prev().find(".knnewest").val();
     var lilinkstring = $this.prev().find(".knnewestlink").val();
-    console.log(listring);
-    // console.log(lilinkstring);
-    
-
-
-
-
-
-
-
+    debugmsg(listring);
 
     //this is actually where we call the
-    // categories privileged method : Knulfunc
+    // categories method : Knulfunc
     //  We can't call this method effectively without alot of information
     // So although ideally I'd like to have just the call to this function inside
     //the binding of the event handler its cleaner to just make a wrapper function for it
@@ -175,11 +196,11 @@ $( document ).ready(function() {
   }
 
   function Knremoveitem ($this) {
-    //console.log($this.parents(".kncatshell").attr("id"));
+    //debugmsg($this.parents(".kncatshell").attr("id"));
     var key = $this.parents(".kncatshell").attr("id");
 
     var listring = $this.prev().find(".knliitem").text();
-    console.log(listring);
+    debugmsg(listring);
 
 
     $kncategories[key].Knulfunc("-", listring)
@@ -209,12 +230,22 @@ $( document ).ready(function() {
     
     var days = $this.children().attr("class");
     
-    console.log("filtering anything that happened " + days + "  days ago");
+    debugmsg("filtering anything that happened " + days + "  days ago");
     //first we make everything show up so previously filtered elements can come back
-    $(".knlidate").show();
-    var knlidateFilt = $(".knlidate").filter(function (index) {return knfilterdate(index)})
+    $(".knli").show();
 
-    knlidateFilt.hide();
+    //if the value given for days is -1 that means forever was selected
+    //so we dont need to do anything else after we show everything
+    if (days == "-1") {
+      $(".kntonowtogglebtn").text($this.children().text())
+      return
+
+    }
+    var $knlidateFilt = $(".knlidate").filter(function (index) {return knfilterdate(index)})
+
+    debugmsg($knlidateFilt.parents(".knli").text())
+
+    $knlidateFilt.parents(".knli").hide()
 
     
 
@@ -232,11 +263,11 @@ $( document ).ready(function() {
 
 
        if (knlidate < cutoff) {
-        console.log("current elements date is less than (predating) today minus days")
+        debugmsg("current elements date is less than (predating) today minus days")
         return true
 
        } else {
-        console.log("current elements date is greater than (postdating) today minus 7 days" + days)
+        debugmsg("current elements date is greater than (postdating) today minus 7 days" + days)
         return false
        }
       
@@ -246,6 +277,22 @@ $( document ).ready(function() {
 
 
     $(".kntonowtogglebtn").text($this.children().text())
+  }
+
+  function Knmvclr ($this) {
+    //find out if its move up or down
+      debugmsg('hi we are in Knmvclr')
+      debugmsg('lets test the value of $this:' + $this.attr('class'));
+
+    if ($this.hasClass('knmvclrup')) {
+      // debugmsg($this.parents('.panel-heading').attr('id'))
+      //knpanelhclrs
+      
+
+    } else if ($this.hasClass('knmvclrdown')) {
+
+    }
+
   }
 
 
@@ -334,7 +381,7 @@ $( document ).ready(function() {
         } else {
           
           var $newlistitem = $("<li>");
-          $newlistitem.addClass("kn"+plaintext+"rm")
+          $newlistitem.addClass("kn"+plaintext+"rm knli")
           
           var $newlistitemdiv = $("<div>")
           $newlistitemdiv.addClass("knlicontent")
@@ -358,11 +405,21 @@ $( document ).ready(function() {
           }
           //here we append the date string
           var plusdate = new Date();
-          $newlistitemdiv
-            .append($("<div>")
-              .addClass("knlidate " + plusdate.toLocaleDateString() )
-              .append(plusdate.toLocaleDateString()))
+          if (!debug) {
+            $newlistitemdiv
+              .append($("<div>")
+                .addClass("knlidate " + plusdate.toLocaleDateString() )
+                .append(plusdate.toLocaleDateString()))
+          } else {
+            var today = new Date()
+            var debugdate  = new Date(today.setDate(today.getDate() - 180 ));
 
+            $newlistitemdiv
+              .append($("<div>")
+                .addClass("knlidate " + debugdate.toLocaleDateString())
+                .append(debugdate.toLocaleDateString()))
+
+          }
           //lets try placing our - button after the li element
           
           
@@ -388,7 +445,7 @@ $( document ).ready(function() {
 
       //function for removing an element
       function KnMinus () {
-        console.log("we are in KnMinus");
+        debugmsg("we are in KnMinus");
         $(".kn"+plaintext+"rm").remove()
 
 
@@ -415,7 +472,19 @@ $( document ).ready(function() {
         .append($('<div>')
           .addClass("panel-heading", catname)
           .attr("id", panelheadingid)
-          .append(name))
+          .append(name)
+          .append($('<span>')
+            .addClass('kncolorupdown floatright')
+            .append($('<span>')
+              .addClass('glyphicon glyphicon-chevron-up knmvclrup'))
+            .append($('<span>')
+              .addClass('glyphicon glyphicon-chevron-down knmvclrdown')))
+          .append($('<span>')
+            .addClass('knpositionarrows floatright')
+            .append($('<span>')
+              .addClass('glyphicon glyphicon-chevron-left'))
+            .append($('<span>')
+              .addClass('glyphicon glyphicon-chevron-right'))))
         .append($('<div>')
           .addClass("panel-body", catname)
           .attr("id", panelbodyid)
@@ -449,7 +518,7 @@ $( document ).ready(function() {
 
 
 
-  console.log( "ready!" );
+  debugmsg( "ready!" );
 
 });
 

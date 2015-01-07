@@ -1,6 +1,7 @@
 
 
 make colors of categories changeable both before and after creation
+	im not sure yet how I would do before
 
 change position in line of category panels after creation
 

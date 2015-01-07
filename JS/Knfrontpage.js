@@ -5,6 +5,8 @@ $( document ).ready(function() {
 
 	//user obviously has us loaded at this point so time to show the front page
 	$(".frontpagewrapper").show()
+	//and hide the other stuff
+	$("#Knpgcontent").hide()
 	
 
 	//===============================================
