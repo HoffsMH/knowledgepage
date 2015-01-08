@@ -6,9 +6,12 @@ $( document ).ready(function() {
   //do to figure stuff out
   debug = true;
 
-  function debugmsg (bugstring) {
+  
+
+
+  function debugmsg (bugstring, ln) {
     if (debug) {
-      console.log(bugstring)
+      console.log(bugstring + " " + ln)
     }
   }
 
@@ -23,11 +26,20 @@ $( document ).ready(function() {
   function clrobjectlist () {
     this.clrolength = 0;
     this.clrindex = [];
+    this.clrlabel = [];
     this.add = function (label, hex) {
+      this.clrindex[label] = this.clrolength
+      this.clrlabel[this.clrolength] = label
       this.clrolength += 1;
-      this.clrindex.push(label);
+      
       this[label] = hex;
     }
+    this.randindex = function () {
+      var max = this.clrolength
+      var min = 0
+      return Math.floor(Math.random() * (max - min) + min)  
+    }
+    
   }
 
   //============================================
@@ -67,7 +79,7 @@ $( document ).ready(function() {
 
     mytimer(texthidestring, 4000);
 
-    debugmsg(errorstr);
+    debugmsg(errorstr );
   };
 
   //================================================
@@ -75,7 +87,7 @@ $( document ).ready(function() {
   //I looked up how to do closure on the web and im not even sure this is right
   //================================================
   function persistenttimer (num) {
-    var a  = setTimeout("debugmsg('Shouldn't be seeing this text ever)", num);
+    var a  = setTimeout("debugmsg('Shouldn't be seeing this text ever', ln)", num);
     clearTimeout(a);
     return function (string, num) {
       clearTimeout(a);
@@ -267,7 +279,7 @@ $( document ).ready(function() {
         return true
 
        } else {
-        debugmsg("current elements date is greater than (postdating) today minus 7 days" + days)
+        debugmsg("current elements date is greater than (postdating) today minus 7 days" + day, thislines)
         return false
        }
       
@@ -281,18 +293,56 @@ $( document ).ready(function() {
 
   function Knmvclr ($this) {
     //find out if its move up or down
-      debugmsg('hi we are in Knmvclr')
-      debugmsg('lets test the value of $this:' + $this.attr('class'));
-
-    if ($this.hasClass('knmvclrup')) {
-      // debugmsg($this.parents('.panel-heading').attr('id'))
-      //knpanelhclrs
       
 
+    if ($this.hasClass('knmvclrup')) {
+      var inc = 1
     } else if ($this.hasClass('knmvclrdown')) {
+      var inc = -1
+    }
+
+    var knpanelhdg = $this.parents('.panel-heading')
+    var currentindex = knpanelhdg.children(".clrindex").text()
+    var currentinc = parseInt(currentindex) + parseInt(inc);
+    var currentmaxindex = knpanelhclrs.clrolength -1;
+    var clrolength = knpanelhclrs.clrolength;
+
+    //debugmsg(currentindex)
+    var randclrindex = knpanelhclrs.randindex();
+
+    //if we are on the last element and we are trying to increment up
+    if ((currentindex == clrolength - 1) && (inc == 1) ) {
+      knpanelhdg.css("background-color", knpanelhclrs[knpanelhclrs.clrlabel[0]])
+      knpanelhdg.children(".clrindex").text("0")
+      return;
+    }
+    //if we are on the first element and we are trying to increment down
+    if ((currentindex == 0) && (inc == -1)) {
+
+      knpanelhdg.css("background-color", knpanelhclrs[knpanelhclrs.clrlabel[currentmaxindex]])
+      knpanelhdg.children(".clrindex").text(currentmaxindex) 
+      return;          
 
     }
 
+    knpanelhdg.children(".clrindex").text(currentinc)
+    knpanelhdg.css("background-color", knpanelhclrs[knpanelhclrs.clrlabel[currentinc]])
+
+
+
+    // debugmsg($this.parents('.panel-heading').attr('id'))
+    //knpanelhclrs
+
+    //determine if we are not on the last element of
+    //the knpanelhclrs array
+    //to even determine which color we are currently on for
+    //any given panel we have to figure out how to attach
+    //the colors themselves to the panel's html
+    //Should probably involve both a class and some inline styles
+
+    //to get the color of the current panel heading
+    //lets set it then get it
+    
   }
 
 
@@ -462,6 +512,17 @@ $( document ).ready(function() {
     //also need to check if the category exist
     $('#kncatbegin').prepend(function () {
 
+      //get our random color ready to add
+      var randclrindex = knpanelhclrs.randindex()
+      var randclrlabel = knpanelhclrs.clrlabel[randclrindex]
+      var randclrdiv = $('<div>')
+        .addClass("clrindex")
+        .css("display", "none")
+        .text(randclrindex);
+      var randclrhex = knpanelhclrs[randclrlabel]
+      debugmsg("our random index" + randclrindex)
+      debugmsg("our random hex: " + randclrhex)
+
       //add the base element panel 
       var $insert = new $("<div></div>")
       .addClass(defaultsize + " " +  catname + " kncatshell")
@@ -471,8 +532,10 @@ $( document ).ready(function() {
         .attr("id", panelid)   
         .append($('<div>')
           .addClass("panel-heading", catname)
+          .css("background-color" , randclrhex)
           .attr("id", panelheadingid)
           .append(name)
+          .append(randclrdiv)
           .append($('<span>')
             .addClass('kncolorupdown floatright')
             .append($('<span>')
