@@ -115,4 +115,18 @@
 	display: inline;
 	margin-left: 10px;
 	margin-right: 10px;
+
+}
+
+.panelhbtn {
+	padding-right: 2px;
+	padding-left: 2px;
+	padding-bottom: 7px;
+	padding-top: 5px;
+
+	line-height: normal !important;
+
+	/*display: inline-block;*/
+
+
 }

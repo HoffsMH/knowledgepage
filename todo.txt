@@ -1,18 +1,20 @@
 
 
-make colors of categories changeable both before and after creation
-	im not sure yet how I would do before
+//make colors of categories changeable both before and after creation -- done
+	//im not sure yet how I would do before ---- just made it random
+		still have to add some good colors
 
-change position in line of category panels after creation
+change position in line of category panels after creation -- this is next
 
 change size (columns) of category panels after creation
+	but first lets get some good sizing scheme to begin with
 
 	figure out how to let user change sizes of columns in different window sizes?
 
 BIGTHING: add dates support
-	date ranges
-	xx: ago dropdown box
-	mousewheel scrool keybind somehow to  view it day by day week by week
+	add keybind to what i already have
+		I have a to now viewing mode which so far works fine
+		and a increment by mode which still needs to be implemented
 	
 	
 

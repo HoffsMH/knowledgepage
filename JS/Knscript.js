@@ -48,6 +48,11 @@ $( document ).ready(function() {
   knpanelhclrs.add("jsblue", "#0C72AD")
   knpanelhclrs.add("rubyred", "#E0115F")
   knpanelhclrs.add("lightyellow", "#FFFF66")
+  knpanelhclrs.add("purple", "#582A72")
+  knpanelhclrs.add("green", "#91E100")
+
+
+
   
   
 
@@ -120,6 +125,14 @@ $( document ).ready(function() {
 
   //event handler for changing color up
   $("body").on("click", ".knmvclrdown", function () {Knmvclr($(this));})
+
+  //event handler for changing panel position to the right
+  $("body").on("click", ".knmvpanelright", function () {Knmvpanel($(this));})
+
+  //event handler for changing panel position to the left
+  $("body").on("click", ".knmvpanelleft", function () {Knmvpanel($(this));})
+
+  
 
   
 
@@ -330,20 +343,56 @@ $( document ).ready(function() {
 
 
 
-    // debugmsg($this.parents('.panel-heading').attr('id'))
-    //knpanelhclrs
-
-    //determine if we are not on the last element of
-    //the knpanelhclrs array
-    //to even determine which color we are currently on for
-    //any given panel we have to figure out how to attach
-    //the colors themselves to the panel's html
-    //Should probably involve both a class and some inline styles
-
-    //to get the color of the current panel heading
-    //lets set it then get it
+  
     
   }
+ 
+ function Knmvpanel ($this) {
+
+  var catname = $this.parents('.kncatshell').attr("id")
+  var kncat = $this.parents('.kncatshell')
+
+  var kncatprev = kncat.prev('.kncatshell')
+  var kncatnext = kncat.next('.kncatshell')
+  debugmsg("the previous panels id: " +   kncatprev.attr("id"))
+
+  if ($this.hasClass('knmvpanelright')) {
+    var inc = -1
+  } else if ($this.hasClass('knmvpanelleft')) {
+    var inc = 1
+  }
+  //make sure we aren't trying to move left when we are at the end of
+  //the categories
+
+  
+  
+  if ((inc == 1) && (kncatnext.length == 0) ) {
+    knerrorline("Can't move anymore in that direction")
+    debugmsg("Can't move anymore in that direction")
+    return;
+  }
+  if ((inc == -1) && (kncatprev.length == 0 )) {
+    knerrorline("Can't move anymore in that direction")
+    debugmsg("Can't move anymore in that direction")
+    return; 
+  }
+
+  if ((inc == 1)) {
+    knerrorline("Moving "+ catname +" right")
+    kncatnext.after(kncat[0])
+    return;
+  }
+  if ((inc == -1)) {
+    knerrorline("Moving "+ catname +" left")
+    kncatprev.before(kncat[0])
+    return;
+  }
+
+
+  // ok at this point I need
+  // should I figure out
+
+ }
 
 
 
@@ -539,15 +588,15 @@ $( document ).ready(function() {
           .append($('<span>')
             .addClass('kncolorupdown floatright')
             .append($('<span>')
-              .addClass('glyphicon glyphicon-chevron-up knmvclrup'))
+              .addClass('glyphicon glyphicon-chevron-up knmvclrup panelhbtn btn'))
             .append($('<span>')
-              .addClass('glyphicon glyphicon-chevron-down knmvclrdown')))
+              .addClass('glyphicon glyphicon-chevron-down knmvclrdown btn panelhbtn')))
           .append($('<span>')
             .addClass('knpositionarrows floatright')
             .append($('<span>')
-              .addClass('glyphicon glyphicon-chevron-left'))
+              .addClass('glyphicon glyphicon-chevron-left btn panelhbtn knmvpanelright'))
             .append($('<span>')
-              .addClass('glyphicon glyphicon-chevron-right'))))
+              .addClass('glyphicon glyphicon-chevron-right btn panelhbtn knmvpanelleft'))))
         .append($('<div>')
           .addClass("panel-body", catname)
           .attr("id", panelbodyid)
