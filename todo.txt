@@ -4,10 +4,10 @@
 	//im not sure yet how I would do before ---- just made it random
 		still have to add some good colors
 
-change position in line of category panels after creation -- this is next
+//change position in line of category panels after creation -- done
 
-change size (columns) of category panels after creation
-	but first lets get some good sizing scheme to begin with
+change size (columns) of category panels after creation -- this is next
+	but first lets get some good sizing scheme to begin with -- right now
 
 	figure out how to let user change sizes of columns in different window sizes?
 

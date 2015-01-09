@@ -86,9 +86,7 @@
 	left: 0px;
 	font-size: .7em;
 }
-.panel-heading {
-	font-size: 1.2em;
-}
+
 .kninputcontent {
 	display: inline-block;
 	
@@ -104,29 +102,76 @@
 
 /*BOOTSTRAP FIDDLING AREA*/
 .panel-heading {
-	/*background-color: #E0115F !important;*/
-}
+	font-size: 1.2em;
+	/*line-height: 40px;*/
+	height: 50px;
+	padding-top: 5px;
+	padding-bottom: 5px;
 
+}
+.glyphicon-chevron-down {
+	right: .5px;
+
+}
 .floatright {
 	float: right;
 }
+.floatleft {
+	float: left;
+}
 
-.kncolorupdown {
-	display: inline;
-	margin-left: 10px;
-	margin-right: 10px;
+.kncolorupdown , .knpositionarrows {
+	display: inline-block;
+	margin-left: 4px;
+	margin-right: 4px;
+	font-size: .5em;
+	text-align: center;
+	line-height: normal;
+	vertical-align: middle;
+
 
 }
 
+
+
+.knmvclrup , .knmvclrdown , .knmvpanelright , .knmvpanelleft {
+
+	font-size: 1.5em;
+}
 .panelhbtn {
 	padding-right: 2px;
 	padding-left: 2px;
-	padding-bottom: 7px;
-	padding-top: 5px;
-
-	line-height: normal !important;
-
+	padding-bottom: 3px;
+	padding-top: 10px;
+	text-align: center;
+	line-height: 8px !important;
+	/*max-width: 14px;*/
 	/*display: inline-block;*/
 
 
 }
+.ctrllbl {
+	line-height: 1px;
+	
+	text-align: center;
+}
+.knmvclrdown , .knmvpanelleft {
+	padding-top: 5px;
+	padding-bottom: 3px
+}
+.knmvclrup , .knmvpanelright {
+	padding-top: 3px;
+	padding-bottom: 5px;
+
+}
+
+.flex-center {
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  
+  
+}
+

@@ -46,10 +46,13 @@ $( document ).ready(function() {
   //panel heading color array
   //============================================
   knpanelhclrs.add("jsblue", "#0C72AD")
+  knpanelhclrs.add("brightblue", "#052DA3")
   knpanelhclrs.add("rubyred", "#E0115F")
   knpanelhclrs.add("lightyellow", "#FFFF66")
   knpanelhclrs.add("purple", "#582A72")
   knpanelhclrs.add("green", "#91E100")
+  knpanelhclrs.add("brightgreen", "#00B920")
+  knpanelhclrs.add("deeporange", '#F27400')
 
 
 
@@ -415,7 +418,7 @@ $( document ).ready(function() {
     var panelheadingid = name +"panelheading"
     var panelbodyid = name +"panelbody"
 
-    var defaultsize = "col-md-4"
+    var defaultsize = "col-lg-3 col-md-4 col-sm-6 col-xs-12"
 
     this.Knulfunc = function(func, plaintext, link) {
       func = (typeof func === "undefined") ? false : func;
@@ -583,20 +586,37 @@ $( document ).ready(function() {
           .addClass("panel-heading", catname)
           .css("background-color" , randclrhex)
           .attr("id", panelheadingid)
-          .append(name)
+          .append ($('<span>')
+            .addClass('flex-center floatleft')
+            .append(name))
           .append(randclrdiv)
           .append($('<span>')
-            .addClass('kncolorupdown floatright')
-            .append($('<span>')
+            .addClass('kncolorupdown floatright flex-center')
+            .append($('<div>')
               .addClass('glyphicon glyphicon-chevron-up knmvclrup panelhbtn btn'))
-            .append($('<span>')
+            .append($('<div>')
+              .addClass('ctrllbl')
+              .append("color"))
+            .append($('<div>')
               .addClass('glyphicon glyphicon-chevron-down knmvclrdown btn panelhbtn')))
           .append($('<span>')
-            .addClass('knpositionarrows floatright')
-            .append($('<span>')
-              .addClass('glyphicon glyphicon-chevron-left btn panelhbtn knmvpanelright'))
-            .append($('<span>')
-              .addClass('glyphicon glyphicon-chevron-right btn panelhbtn knmvpanelleft'))))
+            .addClass('knpositionarrows floatright flex-center  ')
+            .append($('<div>')
+              .addClass('glyphicon glyphicon-chevron-up knmvpanelright btn panelhbtn'))
+            .append($('<div>')
+              .addClass('ctrllbl')
+              .append("position"))
+            .append($('<div>')
+              .addClass('glyphicon glyphicon-chevron-down knmvpanelleft btn panelhbtn')))
+          .append($('<span>')
+            .addClass('knpositionarrows floatright flex-center  ')
+            .append($('<div>')
+              .addClass('glyphicon glyphicon-chevron-up knmvpanelright btn panelhbtn'))
+            .append($('<div>')
+              .addClass('ctrllbl')
+              .append("size"))
+            .append($('<div>')
+              .addClass('glyphicon glyphicon-chevron-down knmvpanelleft btn panelhbtn'))))
         .append($('<div>')
           .addClass("panel-body", catname)
           .attr("id", panelbodyid)
