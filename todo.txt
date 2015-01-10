@@ -1,4 +1,6 @@
+remove button for entire categories
 
+edit button for both categoies and list items
 
 //make colors of categories changeable both before and after creation -- done
 	//im not sure yet how I would do before ---- just made it random
@@ -8,6 +10,14 @@
 
 change size (columns) of category panels after creation -- this is next
 	but first lets get some good sizing scheme to begin with -- right now
+		default will be col-lg-3 col-md-4 col-sm-6 col-xs-12
+			so one size up will be col-lg-4 col-md-6 col-sm-12 col-xs-12
+				keep going till col-lg-12 so
+			col-lg-6 col-md-8 col-sm-12 col-xs-12
+			col-lg-8 col-md-12 col-sm-12 col-xs-12
+			col-lg-12 col-md-12 col-sm-12 col-xs-12
+
+			
 
 	figure out how to let user change sizes of columns in different window sizes?
 

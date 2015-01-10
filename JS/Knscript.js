@@ -4,7 +4,22 @@ $( document ).ready(function() {
                 
   //make console a little more verbose about what im trying to 
   //do to figure stuff out
-  debug = true;
+  var debug = true;
+  var datedebug = false;
+
+  
+  //==========================================================
+  var defaultsize = " col-lg-3 col-md-4 col-sm-6 col-xs-12 "
+  //sizes for categories
+  //to change or add just modify or push to the array
+  var knsizes = [];
+  
+  //first element is always the default size
+  knsizes.push(defaultsize)
+  knsizes.push(" col-lg-4 col-md-6 col-sm-12 col-xs-12 ")
+  knsizes.push(" col-lg-6 col-md-8 col-sm-12 col-xs-12 ")
+  knsizes.push(" col-lg-8 col-md-12 col-sm-12 col-xs-12 ")
+  knsizes.push(" col-lg-12 col-md-12 col-sm-12 col-xs-12 ")
 
   
 
@@ -134,6 +149,12 @@ $( document ).ready(function() {
 
   //event handler for changing panel position to the left
   $("body").on("click", ".knmvpanelleft", function () {Knmvpanel($(this));})
+
+  //event handler for changing panel size up
+  $("body").on("click", ".knmvsizeup" ,  function () {Knmvsize($(this));})
+
+  //event handler for changing panel size down
+  $("body").on("click", ".knmvsizedown" ,  function () {Knmvsize($(this));})
 
   
 
@@ -392,9 +413,71 @@ $( document ).ready(function() {
   }
 
 
-  // ok at this point I need
-  // should I figure out
+  
 
+ }
+
+ function Knmvsize ($this) {
+    // decided to make the Knsizes array global so it is more easily modifiable
+    // and available for other functions incase me or another person wants to do something 
+    //tricky with them later
+    var currszindex = $this.parents(".kncatshell").children(".kncurrsz").text();
+
+    var indexoflastsize = knsizes.length - 1;
+    var $currshell = $this.parents(".kncatshell").get(0)
+
+    var inc = 0;
+    if ($this.hasClass("knmvsizeup")) {
+      inc = 1;
+    } else if ($this.hasClass("knmvsizedown")) {
+      inc = -1;
+    }
+
+    Knrmsizes();
+    Knchsizes();
+    return;
+  
+  
+  
+
+    function Knchsizes () {
+      var dsindex = 0;
+
+      if ((currszindex == indexoflastsize) && inc == 1 ) {
+        $($currshell).addClass(knsizes[0]);
+        $($currshell).children(".kncurrsz").text(0)
+        return;
+      }
+
+      if ((currszindex == 0 ) && inc == -1 ) {
+        $($currshell).addClass(knsizes[indexoflastsize]);
+        $($currshell).children(".kncurrsz").text(indexoflastsize)
+        return;
+      }
+      debugmsg("inc is currently: " + inc)
+      var tobeindex = parseInt(currszindex) + parseInt(inc);
+
+      debugmsg("we should be adding this to the div: " + knsizes[tobeindex])
+      $($currshell).addClass(knsizes[tobeindex])
+      $($currshell).children(".kncurrsz").text(tobeindex)
+
+
+    }
+    function Knrmsizes () {
+      //k new idea this function is to remove the sizes from the class array
+      //the new classes will be applied in another function
+      //as well as the new index applied to the inner span
+
+      var classnames = $this.parents(".kncatshell").attr("class").split(" ");
+      
+
+      for (var i = classnames.length - 1; i >= 0; i--) {
+        if ( /col-*/.test(classnames[i]) ) {
+          $($currshell).removeClass(classnames[i]);
+        }
+      }
+    }
+  
  }
 
 
@@ -418,7 +501,7 @@ $( document ).ready(function() {
     var panelheadingid = name +"panelheading"
     var panelbodyid = name +"panelbody"
 
-    var defaultsize = "col-lg-3 col-md-4 col-sm-6 col-xs-12"
+    
 
     this.Knulfunc = function(func, plaintext, link) {
       func = (typeof func === "undefined") ? false : func;
@@ -487,7 +570,7 @@ $( document ).ready(function() {
           
           var $newlistitemdiv = $("<div>")
           $newlistitemdiv.addClass("knlicontent")
-          
+          //if there is no link provided for the new list item
           if (!link) {
             
             $newlistitemdiv.append($("<div>")
@@ -499,15 +582,17 @@ $( document ).ready(function() {
             $newlistitemlink
               .addClass("knliitem " + catname + " " + plaintext)
               .attr("href" , link)
+              .attr("target", "_blank")
               .append(plaintext);
             $newlistitemdiv
               .append($newlistitemlink);
 
 
           }
+
           //here we append the date string
           var plusdate = new Date();
-          if (!debug) {
+          if (!datedebug) {
             $newlistitemdiv
               .append($("<div>")
                 .addClass("knlidate " + plusdate.toLocaleDateString() )
@@ -520,7 +605,6 @@ $( document ).ready(function() {
               .append($("<div>")
                 .addClass("knlidate " + debugdate.toLocaleDateString())
                 .append(debugdate.toLocaleDateString()))
-
           }
           //lets try placing our - button after the li element
           
@@ -531,15 +615,6 @@ $( document ).ready(function() {
             .append($("<div>")
               .addClass("knminusbtn btn btn-default kncatlibtn " + catname)
               .append("-"))
-              
-
-
-
-
-          
-
-          
-          
           $("." + catname + " .kninputli").before($newlistitem)
         }
 
@@ -579,6 +654,10 @@ $( document ).ready(function() {
       var $insert = new $("<div></div>")
       .addClass(defaultsize + " " +  catname + " kncatshell")
       .attr("id", name)
+      .append($('<span>')
+        .css('display', 'none')
+        .addClass("kncurrsz")
+        .append("0"))
       .append($('<div>')
         .addClass("panel panel-default", catname)
         .attr("id", panelid)   
@@ -611,12 +690,12 @@ $( document ).ready(function() {
           .append($('<span>')
             .addClass('knpositionarrows floatright flex-center  ')
             .append($('<div>')
-              .addClass('glyphicon glyphicon-chevron-up knmvpanelright btn panelhbtn'))
+              .addClass('glyphicon glyphicon-chevron-up knmvsizeup btn panelhbtn'))
             .append($('<div>')
               .addClass('ctrllbl')
               .append("size"))
             .append($('<div>')
-              .addClass('glyphicon glyphicon-chevron-down knmvpanelleft btn panelhbtn'))))
+              .addClass('glyphicon glyphicon-chevron-down knmvsizedown btn panelhbtn'))))
         .append($('<div>')
           .addClass("panel-body", catname)
           .attr("id", panelbodyid)
