@@ -156,6 +156,10 @@ $( document ).ready(function() {
   //event handler for changing panel size down
   $("body").on("click", ".knmvsizedown" ,  function () {Knmvsize($(this));})
 
+  //eventhandler for clicking to remove the panel
+  $("body").on("click", ".knrmcat" ,  function () {Knrmcat($(this));})
+
+
   
 
   
@@ -483,6 +487,22 @@ $( document ).ready(function() {
   
  }
 
+ function Knrmcat ($this) {
+  var $currshell = $this.parents(".kncatshell")
+  $.confirm({
+    title: "Delete category.",
+    text: "Do you really want to delete the category " + $($currshell).attr("id"),
+
+    confirm: function () {
+      $($currshell).remove()
+    },
+    cancel: function () {
+      return;
+    }
+
+  })
+  
+ }
 
 
   //=============================================
@@ -670,7 +690,7 @@ $( document ).ready(function() {
               .addClass("floatleft flex-center")
               .append($("<span>")
                 .addClass("knrmcat btn btn-default")
-              .append("-")))
+                .append("-")))
           .append ($('<span>')
             .addClass('flex-center floatleft kncattitle')
             .append(name))
