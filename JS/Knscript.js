@@ -200,8 +200,11 @@ $( document ).ready(function() {
       //get the text from the textbox
 
       var textsubmitted = $("#knnewcategory").val()
+
       $("#knnewcategory").val("")
       debugmsg(textsubmitted)
+
+      
 
       
 
@@ -516,9 +519,7 @@ $( document ).ready(function() {
           
           .append($("<div>")
             .addClass("kninputcontent " + catname)
-          
             .append($("<input>")
-              
               .attr("type","text")
               .attr("placeholder","title")
               .addClass("knnewest", catname))
@@ -665,8 +666,13 @@ $( document ).ready(function() {
           .addClass("panel-heading", catname)
           .css("background-color" , randclrhex)
           .attr("id", panelheadingid)
+          .append($("<span>")
+              .addClass("floatleft flex-center")
+              .append($("<span>")
+                .addClass("knrmcat btn btn-default")
+              .append("-")))
           .append ($('<span>')
-            .addClass('flex-center floatleft')
+            .addClass('flex-center floatleft kncattitle')
             .append(name))
           .append(randclrdiv)
           .append($('<span>')
