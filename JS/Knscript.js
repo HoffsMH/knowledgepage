@@ -7,6 +7,7 @@ $( document ).ready(function() {
   var debug = true;
   var datedebug = false;
 
+
   
   //==========================================================
   var defaultsize = " col-lg-3 col-md-4 col-sm-6 col-xs-12 "
@@ -21,6 +22,7 @@ $( document ).ready(function() {
   knsizes.push(" col-lg-8 col-md-12 col-sm-12 col-xs-12 ")
   knsizes.push(" col-lg-12 col-md-12 col-sm-12 col-xs-12 ")
 
+  var strcache = ""
   
 
 
@@ -158,6 +160,20 @@ $( document ).ready(function() {
 
   //eventhandler for clicking to remove the panel
   $("body").on("click", ".knrmcat" ,  function () {Knrmcat($(this));})
+
+  //event handler for double clicking on category name to change the name of the category
+  $("body").on("dblclick", ".kncattitle" ,  function () {Knrncat($(this) , true);})
+
+  //event handler for pressing enter while title textfield is active for renaming a category
+  $("body").on("keypress", ".knrntxtbx" ,  function (event) {
+    if (event.keyCode == 13) {
+      Knrncatenter($(this));
+    }
+  
+  })
+
+  //event 
+  $("body").on("blur", ".kncattitle" ,  function () {Knrncat($(this) , false);})  
 
 
   
@@ -489,6 +505,8 @@ $( document ).ready(function() {
 
  function Knrmcat ($this) {
   var $currshell = $this.parents(".kncatshell")
+  
+  // confirm library at http://myclabs.github.io/jquery.confirm/
   $.confirm({
     title: "Delete category.",
     text: "Do you really want to delete the category " + $($currshell).attr("id"),
@@ -502,6 +520,36 @@ $( document ).ready(function() {
 
   })
   
+ }
+ function Knrncat ($this , status) {
+  if (status == false) {
+     $this.text(strcache)
+     
+  } else {
+    strcache = $this.text()
+    
+    $this.text("");
+    $this.append($("<input>")
+      .addClass(" knrntxtbx ")
+      .attr("type", "text")
+      .attr("placeholder", "new category name here"))
+    $this.children(".knrntxtbx").focus()
+  }
+ }
+ 
+ function Knrncatenter ($this) {
+
+  
+  var classname = $($this).attr("class")
+  
+  var textsubmitted = $($this).val();
+  if ($("#"+ textsubmitted).length > 0) {
+    knerrorline("Category already exist")
+    return; 
+  }
+  
+  // debugmsg("hi we are in knrncatenter here is our class name " + classname )
+
  }
 
 
@@ -680,10 +728,10 @@ $( document ).ready(function() {
         .addClass("kncurrsz")
         .append("0"))
       .append($('<div>')
-        .addClass("panel panel-default", catname)
+        .addClass("panel panel-default ", catname)
         .attr("id", panelid)   
         .append($('<div>')
-          .addClass("panel-heading", catname)
+          .addClass("panel-heading ", catname)
           .css("background-color" , randclrhex)
           .attr("id", panelheadingid)
           .append($("<span>")
