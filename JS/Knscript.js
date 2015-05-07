@@ -123,6 +123,17 @@ $( document ).ready(function() {
   //all namespaces
   var mytimer = persistenttimer(4000);
 
+  //function that gets the key to the associative array element for any given element within that category
+  //if for instance i have used jquery to select an li element within a category I can pass that li element 
+  //to the Getkey function and it will return the name of the category that li element is in.
+
+  //since the unique name of each element serves as its key in an associative array of categorys this function
+  //effectively gets the key of any element in the categories array.
+
+  function Getkey ($this) {
+    return $($this).parents(".kncatshell").attr("id")
+  }
+
   
   
 
@@ -147,10 +158,10 @@ $( document ).ready(function() {
   $("body").on("click", ".knmvclrdown", function () {Knmvclr($(this));})
 
   //event handler for changing panel position to the right
-  $("body").on("click", ".knmvpanelright", function () {Knmvpanel($(this));})
+  $("body").on("click", ".knmvpanelright", function () {$kncategories[Getkey(this)].Knmvpanel(this);})
 
   //event handler for changing panel position to the left
-  $("body").on("click", ".knmvpanelleft", function () {Knmvpanel($(this));})
+  $("body").on("click", ".knmvpanelleft", function () {$kncategories[Getkey(this)].Knmvpanel(this);})
 
   //event handler for changing panel size up
   $("body").on("click", ".knmvsizeup" ,  function () {Knmvsize($(this));})
@@ -160,6 +171,9 @@ $( document ).ready(function() {
 
   //eventhandler for clicking to remove the panel
   $("body").on("click", ".knrmcat" ,  function () {Knrmcat($(this));})
+
+  
+
 
   //event handler for double clicking on category name to change the name of the category
   $("body").on("dblclick", ".kncattitle" ,  function () {Knrncat($(this) , true);})
@@ -205,7 +219,7 @@ $( document ).ready(function() {
   
 
   //=======================================
-  //view mode and date filtering
+  //view mode and date filtering event handlers
   //========================================
   //user clicks on an option in change viewmode dropdown
   $("body").on("click", ".knviewmodeOpt", function () {Knchangemode($(this))})
@@ -244,14 +258,14 @@ $( document ).ready(function() {
   
   
   function  Knadditem ($this) {
-    debugmsg($this.parents(".kncatshell").attr("id"));
-    var key = $this.parents(".kncatshell").attr("id");
-
+    
+    var key = Getkey($this)
+    
     var listring = $this.prev().find(".knnewest").val();
     var lilinkstring = $this.prev().find(".knnewestlink").val();
     debugmsg(listring);
 
-    //this is actually where we call the
+    //this is actually where we call  the
     // categories method : Knulfunc
     //  We can't call this method effectively without alot of information
     // So although ideally I'd like to have just the call to this function inside
@@ -394,51 +408,7 @@ $( document ).ready(function() {
     
   }
  
- function Knmvpanel ($this) {
-
-  var catname = $this.parents('.kncatshell').attr("id")
-  var kncat = $this.parents('.kncatshell')
-
-  var kncatprev = kncat.prev('.kncatshell')
-  var kncatnext = kncat.next('.kncatshell')
-  debugmsg("the previous panels id: " +   kncatprev.attr("id"))
-
-  if ($this.hasClass('knmvpanelright')) {
-    var inc = -1
-  } else if ($this.hasClass('knmvpanelleft')) {
-    var inc = 1
-  }
-  //make sure we aren't trying to move left when we are at the end of
-  //the categories
-
-  
-  
-  if ((inc == 1) && (kncatnext.length == 0) ) {
-    knerrorline("Can't move anymore in that direction")
-    debugmsg("Can't move anymore in that direction")
-    return;
-  }
-  if ((inc == -1) && (kncatprev.length == 0 )) {
-    knerrorline("Can't move anymore in that direction")
-    debugmsg("Can't move anymore in that direction")
-    return; 
-  }
-
-  if ((inc == 1)) {
-    knerrorline("Moving "+ catname +" right")
-    kncatnext.after(kncat[0])
-    return;
-  }
-  if ((inc == -1)) {
-    knerrorline("Moving "+ catname +" left")
-    kncatprev.before(kncat[0])
-    return;
-  }
-
-
-  
-
- }
+ 
 
  function Knmvsize ($this) {
     // decided to make the Knsizes array global so it is more easily modifiable
@@ -505,7 +475,7 @@ $( document ).ready(function() {
 
  function Knrmcat ($this) {
   var $currshell = $this.parents(".kncatshell")
-  
+  var key = $currshell.attr("id")
   // confirm library at http://myclabs.github.io/jquery.confirm/
   $.confirm({
     title: "Delete category.",
@@ -513,6 +483,8 @@ $( document ).ready(function() {
 
     confirm: function () {
       $($currshell).remove()
+      delete $kncategories[key]
+
     },
     cancel: function () {
       return;
@@ -540,12 +512,16 @@ $( document ).ready(function() {
  function Knrncatenter ($this) {
 
   
-  var classname = $($this).attr("class")
+
   
   var textsubmitted = $($this).val();
+  //if the category already exist  
   if ($("#"+ textsubmitted).length > 0) {
     knerrorline("Category already exist")
     return; 
+  } else {
+    //ok here we are dealing with the problem of what exactly needs to change other than the text
+    //of the title on the panel heading
   }
   
   // debugmsg("hi we are in knrncatenter here is our class name " + classname )
@@ -561,44 +537,42 @@ $( document ).ready(function() {
 
   // ====================================================
   // This is the category class  each category takes up
-  // a bootstrap pannel
+  // a bootstrap panel
   // ====================================================
 
   function Kncategory(name) {
     this.name = name;
-    var catname = "kncategory"+ name
-    
-    var panelid = name +"panel"
-    var panelheadingid = name +"panelheading"
-    var panelbodyid = name +"panelbody"
 
     
-
+    //KN Unordered list function
+    //anything that modifies or creates the UL 
     this.Knulfunc = function(func, plaintext, link) {
+      //making sure func isn't being passed to anything with the falsey "undefined" value
       func = (typeof func === "undefined") ? false : func;
       
 
       //if no arguments are supplied
+      //we create a ul this happens each time we
       if (!func) { 
         $knulfuncstring = $("<ul>")
-        .addClass(catname)
+        
         .append($("<li>")
-          .addClass(catname + " kninputli")
+          .addClass(" kninputli")
           
           .append($("<div>")
-            .addClass("kninputcontent " + catname)
+            .addClass("kninputcontent ")
             .append($("<input>")
               .attr("type","text")
               .attr("placeholder","title")
-              .addClass("knnewest", catname))
+              .addClass(" knnewest "))
             .append($("<input>")
               
               .attr("type", "text")
               .attr("placeholder","link")
-              .addClass("knnewestlink", catname)))
+              .addClass("knnewestlink")))
           .append($("<div>" )
             
-            .addClass("btn btn-default kncatlibtn knaddli " + catname)
+            .addClass("btn btn-default kncatlibtn knaddli ")
             .append("+"))
           
           .append($("<div>")
@@ -613,7 +587,9 @@ $( document ).ready(function() {
 
       switch (func) {
         case "+":
-          KnPlus();
+          
+          KnPlus(this.name);
+
           break;
         case "-" :
           KnMinus();
@@ -624,9 +600,10 @@ $( document ).ready(function() {
       // child functions for the Knulfunc master functions 
       // Don't want anything else touching these functions
       //========================================
-      function KnPlus() {
+      function KnPlus(name) {
         //keep forgetting received these as parameters from ancestor function
         //Knulfunc
+        this.name = name;
         plaintext = (typeof plaintext === "string") ? plaintext : false;
         link = (typeof link === "string") ? link : false;
 
@@ -643,13 +620,13 @@ $( document ).ready(function() {
           if (!link) {
             
             $newlistitemdiv.append($("<div>")
-              .addClass("knliitem " + catname + " " + plaintext)
+              .addClass("knliitem " + " " + plaintext)
               .append(plaintext));
           } else {
             
             var $newlistitemlink = $("<a>")
             $newlistitemlink
-              .addClass("knliitem " + catname + " " + plaintext)
+              .addClass("knliitem " + " " + plaintext)
               .attr("href" , link)
               .attr("target", "_blank")
               .append(plaintext);
@@ -682,10 +659,10 @@ $( document ).ready(function() {
           $newlistitem
             .append($newlistitemdiv)
             .append($("<div>")
-              .addClass("knminusbtn btn btn-default kncatlibtn " + catname)
+              .addClass("knminusbtn btn btn-default kncatlibtn ")
               .append("-"))
-          $("." + catname + " .kninputli").before($newlistitem)
-        }
+          $("#"+ this.name).find(".kninputli").before($newlistitem)
+        } //-- else
 
       } //--function KnPlus
 
@@ -700,6 +677,53 @@ $( document ).ready(function() {
 
 
     } //--function Knulfunc
+
+    // function kn move panel
+    this.Knmvpanel = function ($this) {
+      
+    
+      var kncat = $($this).parents('.kncatshell')
+
+      var kncatprev = kncat.prev('.kncatshell')
+      var kncatnext = kncat.next('.kncatshell')
+      debugmsg("the previous panels id: " +   kncatprev.attr("id"))
+
+      if ($($this).hasClass('knmvpanelright')) {
+        var inc = -1
+      } else if ($($this).hasClass('knmvpanelleft')) {
+        var inc = 1
+      }
+      //make sure we aren't trying to move left when we are at the end of
+      //the categories
+
+      
+      
+      if ((inc == 1) && (kncatnext.length == 0) ) {
+        knerrorline("Can't move anymore in that direction")
+        debugmsg("Can't move anymore in that direction")
+        return;
+      }
+      if ((inc == -1) && (kncatprev.length == 0 )) {
+        knerrorline("Can't move anymore in that direction")
+        debugmsg("Can't move anymore in that direction")
+        return; 
+      }
+
+      if ((inc == 1)) {
+        knerrorline("Moving "+ name +" right")
+        kncatnext.after(kncat[0])
+        return;
+      }
+      if ((inc == -1)) {
+        knerrorline("Moving "+ name +" left")
+        kncatprev.before(kncat[0])
+        return;
+      }
+
+
+      
+
+   }
 
 
     //have to figure out how to do this dryer
@@ -721,19 +745,18 @@ $( document ).ready(function() {
 
       //add the base element panel 
       var $insert = new $("<div></div>")
-      .addClass(defaultsize + " " +  catname + " kncatshell")
+      .addClass(defaultsize + " " + " kncatshell")
       .attr("id", name)
       .append($('<span>')
         .css('display', 'none')
         .addClass("kncurrsz")
         .append("0"))
       .append($('<div>')
-        .addClass("panel panel-default ", catname)
-        .attr("id", panelid)   
+        .addClass("panel panel-default ")
+           
         .append($('<div>')
-          .addClass("panel-heading ", catname)
+          .addClass("panel-heading ")
           .css("background-color" , randclrhex)
-          .attr("id", panelheadingid)
           .append($("<span>")
               .addClass("floatleft flex-center")
               .append($("<span>")
@@ -771,8 +794,8 @@ $( document ).ready(function() {
             .append($('<div>')
               .addClass('glyphicon glyphicon-chevron-down knmvsizedown btn panelhbtn'))))
         .append($('<div>')
-          .addClass("panel-body", catname)
-          .attr("id", panelbodyid)
+          .addClass("panel-body")
+          
           )
         )
       //return it to the after function
@@ -780,7 +803,8 @@ $( document ).ready(function() {
 
     });
     //call the function to add the initial ul and blank li element to the category panel
-    $("div#"+panelbodyid).append(this.Knulfunc());
+    
+    $("#"+this.name).find(".panel-body").append(this.Knulfunc()) 
 
 
     

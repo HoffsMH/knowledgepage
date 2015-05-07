@@ -31,3 +31,8 @@ BIGTHING: add dates support
 	
 
 //clear text inputs after creating a new list item
+
+	so I think one of the things I was doing was  moving all the actions that could be performed on a category to within the category object.
+
+	I wonder if its even possible to have the entire categoy object in another file
+		lets try to see where we are in terms of progress and what has just happened
